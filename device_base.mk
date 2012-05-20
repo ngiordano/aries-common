@@ -54,8 +54,8 @@ PRODUCT_COPY_FILES += \
 	device/samsung/aries-common/init.aries.usb.rc:recovery/root/usb.rc \
 	device/samsung/aries-common/lpm.rc:root/lpm.rc \
 	device/samsung/aries-common/ueventd.aries.rc:root/ueventd.aries.rc \
-	device/samsung/aries-common/setupdatadata.sh:root/sbin/setupdatadata.sh \
-	device/samsung/aries-common/sysinit:root/bin/sysinit
+	device/samsung/aries-common/sysinit:system/bin/sysinit \
+	device/samsung/aries-common/setupdatadata.sh:root/sbin/setupdatadata.sh
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -102,6 +102,12 @@ PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	libs3cjpeg
 
+# for bugmailer
+PRODUCT_PACKAGES += send_bug
+PRODUCT_COPY_FILES += \
+	system/extras/bugmailer/bugmailer.sh:system/bin/bugmailer.sh \
+	system/extras/bugmailer/send_bug:system/bin/send_bug
+
 # Libs
 PRODUCT_PACKAGES += \
 	libstagefrighthw
@@ -113,7 +119,7 @@ PRODUCT_PACKAGES += \
 # Device-specific packages
 PRODUCT_PACKAGES += \
 	SamsungServiceMode \
-	#AriesParts \
+	AriesParts \
 	tvouthack
 
 # These are the hardware-specific features
@@ -146,6 +152,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
        ro.telephony.ril_class=SamsungRIL \
        ro.telephony.ril.v3=icccardstatus,datacall,signalstrength,facilitylock \
        mobiledata.interfaces=pdp0,eth0,gprs,ppp0 \
+       ro.vold.switchablepair=/mnt/emmc,/mnt/sdcard \
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -169,9 +176,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dexopt-data-only=1
 
-# Set default USB interface
+# Set default USB interface and default to internal SD as /sdcard
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mass_storage
+    persist.sys.usb.config=mass_storage \
+    persist.sys.vold.switchexternal=1
 
 include frameworks/base/build/phone-hdpi-512-dalvik-heap.mk
 

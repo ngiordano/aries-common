@@ -3,10 +3,16 @@
    package="com.cyanogenmod.settings.device" android:sharedUserId="android.uid.system">
    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
-   <application android:label="@string/app_name"
-                android:icon="@drawable/icon">
+   <application android:label="@string/app_name">
       <activity android:name=".DeviceSettings"
                 android:label="@string/app_name">
+         <intent-filter>
+            <action android:name="com.cyanogenmod.action.LAUNCH_DEVICE_SETTINGS" />
+         </intent-filter>
+         <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+           <category android:name="android.intent.category.LAUNCHER" />
+         </intent-filter>
       </activity>
       <receiver android:name=".Startup">
          <intent-filter android:priority="100">
